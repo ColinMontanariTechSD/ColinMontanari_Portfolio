@@ -71,7 +71,23 @@
   }
   function tick(now){raf=0;if(!visible||document.hidden)return;const delta=targetProgress-state.progress,moving=!reduced.matches&&Math.abs(delta)>.0003;if(moving){const dt=Math.min(50,lastTick?now-lastTick:16),next=state.progress+delta*(1-Math.exp(-dt/65));state=SpatialSceneModel.state(next,Number(frequency.value));updateReadouts();updateAudio();dirty=true;}else if(delta){state=SpatialSceneModel.state(targetProgress,Number(frequency.value));updateReadouts();updateAudio();dirty=true;}lastTick=now;if(dirty||(audio&&!reduced.matches&&now-lastDraw>=33))draw(now);if(moving||(audio&&!reduced.matches))raf=requestAnimationFrame(tick);}
   function requestDraw(){dirty=true;if(visible&&!raf&&!document.hidden)raf=requestAnimationFrame(tick);}
-  function resize(){const top=document.querySelector('header').getBoundingClientRect().height+14;root.style.setProperty('--spatial-top',top+'px');const panel=root.querySelector('.spatial-panel'),old=canvas.getBoundingClientRect(),other=panel.getBoundingClientRect().height-old.height;root.style.setProperty('--spatial-stage-height',Math.max(260,Math.min(old.width<760?420:620,window.innerHeight-top-other-28))+'px');const rect=canvas.getBoundingClientRect();w=rect.width;h=rect.height;const dpr=Math.min(devicePixelRatio||1,1.75);canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);requestDraw();}
+  function resize(){
+    const viewport=document.documentElement.clientHeight,top=document.querySelector('header').getBoundingClientRect().height+14;
+    root.style.setProperty('--spatial-top',top+'px');
+    const footer=root.querySelector('.spatial-footer').getBoundingClientRect().height;
+    const compact=reduced.matches||matchMedia('(max-height:540px)').matches;
+    const available=Math.max(200,viewport-top-footer-12);
+    // Fill the visible area throughout the sticky sequence, including on tall screens.
+    const stageHeight=compact?Math.min(canvas.clientWidth<760?420:620,available):available;
+    root.style.setProperty('--spatial-stage-height',stageHeight+'px');
+    // Reserve only the distance used by the animation; its panel covers this space while pinned.
+    const travel=Math.max(600,Math.min(1100,viewport*1.1));
+    root.style.setProperty('--spatial-track-height',compact?'auto':(stageHeight+footer+travel)+'px');
+    const rect=canvas.getBoundingClientRect();w=rect.width;h=rect.height;
+    const dpr=Math.min(devicePixelRatio||1,1.75,Math.sqrt(4000000/(w*h)));
+    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+    onScroll();requestDraw();
+  }
   function updateAudio(){if(!audio)return;const now=audio.context.currentTime;audio.oscillators.forEach((o,i)=>o.frequency.setTargetAtTime(state.frequency*(i+1),now,.04));for(const [branch,path] of [[audio.direct,state.transmitted],[audio.diffraction,state.diffracted]]){branch.gain.gain.setTargetAtTime(path.gain,now,.05);branch.filter.frequency.setTargetAtTime(path.cutoff,now,.05);branch.delay.delayTime.setTargetAtTime(path.delay,now,.08);branch.pan.pan.setTargetAtTime(path.pan,now,.05);}}
   function stopAudio(){audioGeneration++;if(audio){const old=audio;audio=null;old.master.gain.setTargetAtTime(0,old.context.currentTime,.015);old.oscillators.forEach(o=>{try{o.stop(old.context.currentTime+.09);}catch{}});setTimeout(()=>old.context.close().catch(()=>{}),140);}updateReadouts();requestDraw();}
   async function startAudio(){const generation=++audioGeneration;let context;
@@ -96,11 +112,11 @@
   const queueResize=()=>{if(!resizeRaf)resizeRaf=requestAnimationFrame(()=>{resizeRaf=0;resize();});};
   new ResizeObserver(queueResize).observe(canvas);
   window.addEventListener('resize',queueResize,{passive:true});
-  new MutationObserver(updateCopy).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+  new MutationObserver(()=>{updateCopy();queueResize();}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
   canvas.addEventListener('pointerdown',event=>{drag={x:event.clientX,y:event.clientY,yaw,pitch};if(event.pointerType==='mouse')canvas.setPointerCapture(event.pointerId);});
   canvas.addEventListener('pointermove',event=>{if(!drag)return;yaw=drag.yaw+(event.clientX-drag.x)*.006;if(event.pointerType==='mouse')pitch=Math.max(.35,Math.min(1.05,drag.pitch+(event.clientY-drag.y)*.004));requestDraw();});
   for(const name of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(name,()=>drag=null);
   canvas.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowDown','ArrowRight','ArrowUp','Home','End'].includes(event.key)){event.preventDefault();manualPosition=true;cancelPendingScroll();setPosition(event.key==='Home'?0:event.key==='End'?1:state.progress+(['ArrowRight','ArrowUp'].includes(event.key)?1:-1)*.02);}});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio();if(raf)cancelAnimationFrame(raf);raf=0;}else requestDraw();});window.addEventListener('pagehide',stopAudio);
-  reduced.addEventListener('change',()=>{onScroll();requestDraw();});updateCopy();resize();
+  reduced.addEventListener('change',()=>{queueResize();onScroll();requestDraw();});updateCopy();resize();
 })();
