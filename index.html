@@ -8,7 +8,7 @@
   <title>Colin Montanari — Technical Sound Designer</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230b0d11'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial,sans-serif' font-size='29' font-weight='700' fill='%235078ff'%3ECM%3C/text%3E%3C/svg%3E">
   <style>
-    :root { --bg:#0b0d11; --surface:#11151d; --text:#f0f1f3; --muted:#a4abb8; --subtle:#7d8799; --blue:#7b9aff; --electric:#5078ff; --line:#292e38; --gutter:clamp(22px,4vw,104px); }
+    :root { --bg:#0b0d11; --surface:#11151d; --text:#f0f1f3; --muted:#b0b8c8; --subtle:#929caf; --blue:#8ba7ff; --electric:#5078ff; --line:#292e38; --panel-radius:12px; --gutter:clamp(22px,4vw,104px); }
     *,*::before,*::after { box-sizing:border-box; }
     html { scroll-behavior:smooth; scroll-padding-top:100px; }
     body { margin:0; background:var(--bg); color:var(--text); font:400 1rem/1.6 'Segoe UI',Arial,sans-serif; -webkit-font-smoothing:antialiased; }
@@ -22,23 +22,23 @@
     .shell { width:100%; padding-inline:var(--gutter); }
     .mono { font-family:Consolas,'Courier New',monospace; font-size:.875rem; letter-spacing:.045em; text-transform:uppercase; }
     header,main,footer { position:relative; z-index:1; }
-    header { position:sticky; top:0; z-index:10; background:rgba(11,13,17,.95); border-top:3px solid var(--electric); border-bottom:1px solid var(--line); backdrop-filter:blur(14px); }
+    header { position:sticky; top:0; z-index:10; background:rgba(11,13,17,.94); border-top:2px solid var(--electric); border-bottom:1px solid var(--line); backdrop-filter:blur(14px); }
     .nav { min-height:82px; display:flex; justify-content:space-between; align-items:center; gap:30px; }
     .brand { display:flex; align-items:center; gap:13px; font-size:1rem; font-weight:650; letter-spacing:-.025em; white-space:nowrap; }
-    .brand-mark { display:grid; place-items:center; width:34px; height:34px; border:1px solid #455575; font-family:Consolas,monospace; color:var(--blue); font-size:.75rem; }
+    .brand-mark { display:grid; place-items:center; width:34px; height:34px; border:1px solid #455575; border-radius:8px; background:#131a2a; font-family:Consolas,monospace; color:var(--blue); font-size:.75rem; }
     .nav-actions { display:flex; align-items:center; gap:clamp(20px,3vw,44px); }
-    .language-switch { display:none; gap:3px; padding:3px; border:1px solid var(--line); border-radius:4px; }
+    .language-switch { display:none; gap:3px; padding:3px; border:1px solid var(--line); border-radius:8px; }
     html.has-language-switch .language-switch { display:flex; }
-    .language-switch button { border:0; border-radius:2px; background:transparent; color:var(--muted); min-width:35px; min-height:34px; padding:5px 8px; font:500 .8125rem/1.4 Consolas,monospace; cursor:pointer; }
+    .language-switch button { border:0; border-radius:5px; background:transparent; color:var(--muted); min-width:35px; min-height:34px; padding:5px 8px; font:500 .8125rem/1.4 Consolas,monospace; cursor:pointer; }
     .language-switch button:hover { color:var(--text); background:#1b2232; }
-    .language-switch button[aria-pressed="true"] { background:var(--electric); color:white; }
+    .language-switch button[aria-pressed="true"] { background:var(--blue); color:#10172a; }
     .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
     @media (max-width:560px) { .nav-actions { display:contents; } .brand { order:1; } .language-switch { order:2; margin-left:auto; } .nav-links { order:3; } }
     .nav-links { display:flex; gap:clamp(20px,3vw,48px); align-items:center; font-size:.9375rem; }
     .nav-links a { padding:8px 0; color:var(--muted); transition:color .2s; }
     .nav-links a:hover { color:var(--text); }
     .nav-links .contact-nav { color:var(--text); border-bottom:1px solid var(--electric); }
-    .hero { position:relative; isolation:isolate; padding-block:clamp(52px,6vw,108px) 46px; }
+    .hero { position:relative; isolation:isolate; padding-block:clamp(52px,6vw,108px) 46px; background:radial-gradient(ellipse at 74% 13%,rgba(80,120,255,.10),transparent 57%); }
     .hero-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:clamp(32px,6vw,120px); align-items:center; }
     .eyebrow { color:var(--blue); margin:0 0 26px; }
     h1 { font-size:clamp(3.5rem,5.45vw,8.5rem); line-height:1.03; letter-spacing:-.065em; font-weight:650; margin:0 0 30px; }
@@ -46,14 +46,12 @@
     h1 .period { color:var(--electric); }
     .hero-copy { max-width:49ch; color:var(--muted); font-size:clamp(1.0625rem,1.15vw,1.3rem); margin:0 0 30px; line-height:1.7; }
     .hero-links { display:flex; flex-wrap:wrap; gap:20px 28px; align-items:center; }
-    .button { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:11px 22px; border:1px solid var(--electric); background:var(--electric); color:white; font-size:.9375rem; font-weight:600; border-radius:3px; transition:background .2s,border-color .2s; }
-    .button:hover { background:#3f65e3; border-color:#3f65e3; }
+    .button { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:11px 22px; border:1px solid var(--blue); background:var(--blue); color:#10172a; font-size:.9375rem; font-weight:650; border-radius:8px; transition:background .2s,border-color .2s; }
+    .button:hover { background:#abc0ff; border-color:#abc0ff; }
     .text-link { border-bottom:1px solid #596173; padding-block:4px; font-size:.9375rem; transition:border-color .2s,color .2s; }
     .text-link:hover { border-color:var(--blue); color:var(--blue); }
     .featured { margin:0; min-width:0; }
-    .feature-label { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:14px; color:var(--muted); }
-    .feature-label span:last-child { color:var(--blue); }
-    .feature-visual { position:relative; display:block; aspect-ratio:16/10; overflow:hidden; background:var(--surface); border:1px solid var(--line); }
+    .feature-visual { position:relative; display:block; aspect-ratio:16/10; overflow:hidden; background:var(--surface); border:1px solid var(--line); border-radius:var(--panel-radius); box-shadow:0 20px 48px rgba(0,0,0,.3); }
     .feature-visual img { height:100%; object-fit:cover; filter:saturate(.8); transition:transform .65s,filter .4s; }
     .feature-visual:hover img { transform:scale(1.035); filter:saturate(1); }
     .feature-visual::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.6)); pointer-events:none; }
@@ -77,17 +75,17 @@
     .heading-note { color:var(--muted); max-width:42ch; font-size:.9375rem; margin:12px 0 0; }
     .project-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px 28px; }
     .project { min-width:0; }
-    .project-visual { display:block; position:relative; overflow:hidden; aspect-ratio:16/9; background:var(--surface); }
+    .project-visual { display:block; position:relative; overflow:hidden; aspect-ratio:16/9; background:var(--surface); border:1px solid var(--line); border-radius:var(--panel-radius); transition:border-color .2s; }
+    .project-visual:hover,.project-visual:focus-visible { border-color:var(--blue); }
     .project-visual img { height:100%; object-fit:cover; transition:transform .5s,filter .4s; filter:saturate(.82); }
     .project-visual:hover img { transform:scale(1.04); filter:saturate(1); }
     .project-visual::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.3),transparent 40%,rgba(0,0,0,.4)); pointer-events:none; }
-    .visual-category { position:absolute; top:12px; left:12px; z-index:2; font-size:.8125rem; padding:4px 9px; background:rgba(11,13,17,.8); color:#e1e6ef; }
+    .visual-category { position:absolute; top:12px; left:12px; z-index:2; font-size:.8125rem; padding:4px 9px; border:1px solid rgba(255,255,255,.16); border-radius:5px; background:rgba(11,13,17,.8); color:#e1e6ef; }
     .watch { position:absolute; right:14px; bottom:12px; z-index:2; font-size:.8125rem; opacity:0; transform:translateY(5px); transition:opacity .2s,transform .2s; }
     .project-visual:hover .watch,.project-visual:focus-visible .watch { opacity:1; transform:translateY(0); }
     .project-title { display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin-top:17px; }
     h3 { font-size:1.2rem; letter-spacing:-.02em; line-height:1.35; margin:0; font-weight:600; }
     .project-title a:hover { color:var(--blue); }
-    .project-number { font:400 .8125rem/1.4 Consolas,monospace; color:var(--subtle); }
     .project-note { font-size:.9375rem; color:var(--muted); margin:6px 0 0; }
     .steam-link { display:inline-flex; align-items:center; gap:8px; margin-top:14px; color:var(--blue); }
     .project-tools { font-size:.8125rem; color:var(--blue); margin:7px 0 0; }
@@ -95,7 +93,7 @@
     .about-grid { display:grid; grid-template-columns:.8fr 1.5fr; gap:clamp(40px,8vw,160px); }
     .about-heading h2 { max-width:10ch; }
     .about-heading .text-link { display:inline-block; margin-top:22px; }
-    .portrait { width:min(190px,100%); height:auto; margin-top:28px; background:#1a202b; border-bottom:1px solid var(--line); }
+    .portrait { width:min(190px,100%); height:auto; margin-top:28px; background:#1a202b; border:1px solid var(--line); border-radius:var(--panel-radius); }
     .bio { font-size:clamp(1.125rem,1.45vw,1.625rem); line-height:1.6; letter-spacing:-.018em; max-width:65ch; margin:0 0 38px; }
     .bio .soft { color:var(--muted); }
     .experience { border-top:1px solid var(--line); padding-block:26px; display:grid; grid-template-columns:170px 1fr; gap:24px; }
@@ -104,23 +102,40 @@
     .experience h3 { font-size:1.25rem; }
     .job-title { font-size:.9375rem; color:var(--blue); margin:4px 0 12px; }
     .experience p:last-of-type { color:var(--muted); font-size:1rem; max-width:68ch; margin-bottom:0; }
-    .skills-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(24px,4vw,80px); }
-    .skill-block { padding-top:22px; border-top:1px solid var(--line); }
-    .skill-block .mono { color:var(--blue); margin:0 0 20px; }
+    .skills-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(16px,2vw,32px); }
+    .skill-block { padding:clamp(18px,2vw,28px); border:1px solid var(--line); border-top-color:#3c4b6b; border-radius:var(--panel-radius); background:linear-gradient(160deg,#141a26,transparent 85%); }
+    .skill-block .mono { color:var(--blue); margin:0 0 16px; }
     .skill-block h3 { font-size:1.5rem; font-weight:500; margin-bottom:14px; }
     .skill-block p { color:var(--muted); margin:10px 0; max-width:44ch; }
+    .skill-block p:last-child { margin-bottom:0; }
     .tool-names { font-size:1.125rem; color:var(--text) !important; }
+    .environment-showcase { margin-top:clamp(36px,5vw,68px); padding:clamp(14px,2.5vw,34px); border:1px solid var(--line); border-radius:var(--panel-radius); background:radial-gradient(ellipse at 12% 0,rgba(80,120,255,.1),transparent 42%),var(--surface); box-shadow:0 24px 70px rgba(0,0,0,.2); }
+    .environment-showcase-eyebrow { color:var(--blue); margin:0 0 22px; }
+    .environment-compare { --reveal:50%; position:relative; isolation:isolate; overflow:hidden; aspect-ratio:2048 / 505; margin:0; border:1px solid rgba(255,255,255,.14); border-radius:8px; background:#080a0f; box-shadow:0 12px 36px rgba(0,0,0,.28); }
+    .environment-compare img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .environment-compare-after { position:absolute; inset:0; overflow:hidden; clip-path:inset(0 0 0 var(--reveal)); }
+    .environment-compare-after img { max-width:none; }
+    .environment-compare::before { content:""; position:absolute; z-index:2; top:0; bottom:0; left:var(--reveal); width:2px; background:#f7f8fc; box-shadow:0 0 16px rgba(80,120,255,.65); transform:translateX(-1px); pointer-events:none; }
+    .environment-compare-handle { position:absolute; z-index:3; top:50%; left:var(--reveal); display:grid; width:44px; height:58px; place-items:center; border:1px solid rgba(255,255,255,.72); border-radius:999px; background:rgba(13,18,29,.82); color:white; box-shadow:0 4px 18px rgba(0,0,0,.35); transform:translate(-50%,-50%); pointer-events:none; backdrop-filter:blur(10px); }
+    .environment-compare-handle svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.6; }
+    .environment-compare-range { appearance:none; position:absolute; z-index:4; inset:0; width:100%; height:100%; margin:0; border:0; background:transparent; cursor:ew-resize; touch-action:pan-y; }
+    .environment-compare-range::-webkit-slider-runnable-track { height:100%; background:transparent; }
+    .environment-compare-range::-webkit-slider-thumb { appearance:none; width:44px; height:100%; border:0; background:transparent; }
+    .environment-compare-range::-moz-range-track { height:100%; border:0; background:transparent; }
+    .environment-compare-range::-moz-range-thumb { width:44px; height:100%; border:0; border-radius:0; background:transparent; }
+    .environment-compare:focus-within { outline:2px solid var(--blue); outline-offset:3px; }
+    @media (max-width:700px) { .environment-compare-handle { width:38px; height:50px; } }
     .education { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:42px; border-top:1px solid var(--line); padding-top:26px; }
     .education p { color:var(--muted); margin:8px 0 0; font-size:.9375rem; }
     .education strong { font-weight:500; }
-    .certification { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px 24px; margin-top:32px; padding:22px 24px; border:1px solid var(--line); background:var(--surface); }
+    .certification { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px 24px; margin-top:32px; padding:22px 24px; border:1px solid var(--line); border-radius:var(--panel-radius); background:var(--surface); }
     .certification-label { display:block; color:var(--subtle); margin-bottom:5px; }
     .certification-title { margin:0; font-size:1.05rem; font-weight:550; }
     .certification-link { flex:none; }
     .language-fr { display:none; }
     html[lang="fr"] .language-en { display:none; }
     html[lang="fr"] .language-fr { display:inline; }
-    .contact-section { padding-block:60px 70px; border-top:1px solid var(--line); background:var(--surface); }
+    .contact-section { padding-block:60px 70px; border-top:1px solid var(--line); background:radial-gradient(ellipse at 10% 0,rgba(80,120,255,.08),transparent 58%),var(--surface); }
     .contact-layout { display:grid; grid-template-columns:1fr 1.4fr; gap:40px; align-items:end; }
     .contact-layout h2 { font-size:clamp(2.5rem,4.8vw,6.5rem); }
     .contact-email { display:inline-block; font-size:clamp(1.05rem,2.25vw,3.1rem); letter-spacing:-.025em; border-bottom:1px solid #596173; padding-bottom:7px; overflow-wrap:anywhere; }
@@ -132,20 +147,11 @@
     @media (min-width:1900px) { .project-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:46px 32px; } .project-title h3 { font-size:1.35rem; } }
     @media (max-width:1100px) { .hero-grid { gap:36px; } h1 { font-size:clamp(3.1rem,5.4vw,4.5rem); } .project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .about-grid { gap:44px; grid-template-columns:.8fr 1.4fr; } .experience { grid-template-columns:1fr; gap:8px; } .contact-layout { grid-template-columns:1fr 1.4fr; gap:24px; } }
     @media (max-width:800px) { html { scroll-padding-top:90px; } .nav { min-height:72px; gap:18px; } .nav-links { gap:20px; font-size:.875rem; } .hero { padding-top:44px; } .hero-grid { grid-template-columns:1fr; gap:34px; } h1 { font-size:clamp(3.4rem,8vw,5rem); max-width:13ch; } .hero-copy { max-width:58ch; } .featured { max-width:100%; } .feature-visual { aspect-ratio:16/9; } .hero-details { margin-top:30px; } .about-grid { grid-template-columns:1fr; gap:36px; } .about-heading h2 { max-width:none; } .about-heading .text-link { margin-top:18px; } .experience { grid-template-columns:150px 1fr; gap:22px; } .skills-grid { grid-template-columns:1fr; gap:28px; } .skill-block p { max-width:none; } .contact-layout { grid-template-columns:1fr; gap:30px; } .contact-email { font-size:clamp(1rem,3.8vw,2.2rem); } }
-    @media (max-width:560px) { :root { --gutter:22px; } html { scroll-padding-top:126px; } .nav { flex-wrap:wrap; padding-block:15px 12px; gap:12px; } .brand { font-size:1rem; } .nav-links { width:100%; justify-content:space-between; gap:10px; } .hero { padding-top:35px; padding-bottom:24px; } .eyebrow { font-size:.8125rem; margin-bottom:20px; } h1 { font-size:clamp(2.7rem,10.8vw,3.8rem); margin-bottom:24px; } .hero-copy { font-size:1rem; margin-bottom:24px; } .hero-grid { gap:30px; } .feature-label { font-size:.8125rem; } .feature-caption { bottom:16px; left:18px; right:18px; } .feature-caption strong { font-size:1.375rem; } .feature-caption .watch-label { display:none; } .feature-visual .play { width:54px; height:54px; } .hero-details { font-size:.875rem; padding-block:17px; } .section { padding-block:38px 46px; } .section-heading { grid-template-columns:1fr; gap:18px; margin-bottom:26px; } .section-heading > a { justify-self:start; } .project-grid { grid-template-columns:1fr; gap:30px; } h2 { font-size:2.5rem; } .section-index { font-size:.8125rem; } .project-title { margin-top:14px; } .bio { font-size:1.125rem; } .experience { grid-template-columns:1fr; gap:10px; padding-block:22px; } .education { grid-template-columns:1fr; gap:22px; } .contact-section { padding-block:40px; } .contact-email { font-size:clamp(1rem,4.35vw,1.5rem); } .contact-sub { gap:12px 20px; } .footer-inner { font-size:.8125rem; } }
+    @media (max-width:560px) { :root { --gutter:22px; } html { scroll-padding-top:126px; } .nav { flex-wrap:wrap; padding-block:15px 12px; gap:12px; } .brand { font-size:1rem; } .nav-links { width:100%; justify-content:space-between; gap:10px; } .hero { padding-top:35px; padding-bottom:24px; } .eyebrow { font-size:.8125rem; margin-bottom:20px; } h1 { font-size:clamp(2.7rem,10.8vw,3.8rem); margin-bottom:24px; } .hero-copy { font-size:1rem; margin-bottom:24px; } .hero-grid { gap:30px; } .feature-caption { bottom:16px; left:18px; right:18px; } .feature-caption strong { font-size:1.375rem; } .feature-caption .watch-label { display:none; } .feature-visual .play { width:54px; height:54px; } .hero-details { font-size:.875rem; padding-block:17px; } .section { padding-block:38px 46px; } .section-heading { grid-template-columns:1fr; gap:18px; margin-bottom:26px; } .section-heading > a { justify-self:start; } .project-grid { grid-template-columns:1fr; gap:30px; } h2 { font-size:2.5rem; } .section-index { font-size:.8125rem; } .project-title { margin-top:14px; } .bio { font-size:1.125rem; } .experience { grid-template-columns:1fr; gap:10px; padding-block:22px; } .education { grid-template-columns:1fr; gap:22px; } .contact-section { padding-block:40px; } .contact-email { font-size:clamp(1rem,4.35vw,1.5rem); } .contact-sub { gap:12px 20px; } .footer-inner { font-size:.8125rem; } }
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition:none !important; } .cursor-glow { display:none; } }
 
     #page-acoustics { position:fixed; inset:0; width:100%; height:100%; z-index:3; pointer-events:none; mix-blend-mode:screen; }
-    .acoustic-invitation { margin:22px 0 0; display:flex; align-items:center; }
-    .wave-toggle { display:inline-flex; align-items:center; gap:9px; min-height:40px; padding:7px 11px; border:1px solid var(--line); border-radius:7px; color:var(--muted); background:transparent; cursor:pointer; font:400 .75rem/1.4 'Segoe UI',Arial,sans-serif; transition:border-color .2s,background .2s; }
-    .wave-toggle svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; }
-    .wave-toggle[aria-pressed="true"] svg { color:var(--blue); }
-    .wave-toggle-track { display:block; position:relative; width:28px; height:16px; border:1px solid #414958; border-radius:20px; background:#242a35; transition:background .2s,border-color .2s; }
-    .wave-toggle-thumb { position:absolute; left:2px; top:2px; width:10px; height:10px; border-radius:50%; background:#9fa7b6; transition:transform .2s,background .2s; }
-    .wave-toggle[aria-pressed="true"] .wave-toggle-track { background:#304573; border-color:#526fac; }
-    .wave-toggle[aria-pressed="true"] .wave-toggle-thumb { transform:translateX(12px); background:#d5e0ff; }
-    .wave-toggle:hover { border-color:#52617b; background:#141b28; }
-    @media (prefers-reduced-motion:reduce) { #page-acoustics,.acoustic-invitation { display:none; } }
+    @media (prefers-reduced-motion:reduce) { #page-acoustics { display:none; } }
 
     /* Keep the navigation usable alongside language controls on smaller screens. */
     @media (max-width:860px) { .nav { flex-wrap:wrap; padding-block:15px 12px; gap:12px; } .nav-actions { display:contents; } .brand { order:1; } .language-switch { order:2; margin-left:auto; } .nav-links { order:3; width:100%; justify-content:space-between; gap:10px; } html { scroll-padding-top:126px; } }
@@ -156,7 +162,6 @@
     /* ACFA document spacing. */
     .acfa-documents { display:flex; flex-wrap:wrap; gap:12px 26px; }
 
-    .acoustic-invitation { gap:9px; flex-wrap:wrap; }
   </style>
   <link rel="stylesheet" href="spatial-scene.css?v=20261019-viewport">
   <script defer src="spatial-scene-model.js?v=20261007-surface-reflection"></script>
@@ -186,10 +191,8 @@
           <h1 id="hero-title" lang="en" data-i18n="text63"><span class="first-line">Technical</span> sound designer<span class="period">.</span></h1>
           <p class="hero-copy" data-i18n="text6">I design and integrate interactive audio with Wwise and Unreal Engine. From ambience systems to spatial audio, I work on how sound responds to the game.</p>
           <div class="hero-links"><a class="button" href="#projects" data-i18n="text7">Explore my work</a><a class="text-link" href="cv-colin-montanari.pdf?v=68495517e1c2" target="_blank" rel="noopener" data-i18n="text8">View my CV</a></div>
-          <div class="acoustic-invitation"><button hidden class="wave-toggle" id="wave-toggle" type="button" aria-pressed="true" aria-label="Enable or disable interactive waves" data-i18n-aria-label="acousticToggleLabel"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 8v4m4-7v10m4-13v16m4-12v8m4-6v4"/></svg><span data-i18n="acousticToggle">Waves</span><span class="wave-toggle-track" aria-hidden="true"><span class="wave-toggle-thumb"></span></span></button></div>
         </div>
         <figure class="featured">
-          <figcaption class="feature-label mono"><span data-i18n="text9">Start listening</span><span data-i18n="text24">Audio demo</span></figcaption>
           <a class="feature-visual" href="https://www.youtube.com/watch?v=1LJMzgj2TFA" target="_blank" rel="noopener noreferrer" aria-label="Watch Audio Reactive Scene on YouTube" data-i18n-aria-label="text100">
             <img src="https://i.ytimg.com/vi/1LJMzgj2TFA/hqdefault.jpg" alt="Audio Reactive Scene video thumbnail" data-i18n-alt="text101" width="480" height="360" fetchpriority="high">
             <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
@@ -209,7 +212,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=Ehm__A0e2dE" target="_blank" rel="noopener noreferrer">Chess Cards Game</a></h3><span class="project-number">02</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=Ehm__A0e2dE" target="_blank" rel="noopener noreferrer">Chess Cards Game</a></h3></div>
       <p class="project-note" data-i18n="text19">Game audio demonstration</p>
       <p class="project-tools" data-i18n="text96">Unreal Engine 5 / Wwise / Game Dev</p>
     </article>
@@ -220,7 +223,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=f1CPaohWZSs" target="_blank" rel="noopener noreferrer">Spatial Audio VR</a></h3><span class="project-number">02</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=f1CPaohWZSs" target="_blank" rel="noopener noreferrer">Spatial Audio VR</a></h3></div>
       <p class="project-note" data-i18n="text22">VR audio demonstration</p>
       <p class="project-tools" data-i18n="text23">Unreal Engine 5 / Wwise / VR / Spatial Audio / Game Dev</p>
     </article>
@@ -231,7 +234,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=ySbdtT6C4kk" target="_blank" rel="noopener noreferrer">Paragon — Announce Trailer</a></h3><span class="project-number">03</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=ySbdtT6C4kk" target="_blank" rel="noopener noreferrer">Paragon — Announce Trailer</a></h3></div>
       <p class="project-note" data-i18n="text32">Game trailer</p>
       <p class="project-tools" data-i18n="text33">Game Audio / Sound Design</p>
     </article>
@@ -242,7 +245,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=23H4dMlIv8Q" target="_blank" rel="noopener noreferrer">Foliage Collision</a></h3><span class="project-number">04</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=23H4dMlIv8Q" target="_blank" rel="noopener noreferrer">Foliage Collision</a></h3></div>
       <p class="project-note" data-i18n="text20">Foliage collision demonstration</p>
       <p class="project-tools" data-i18n="text97">Unreal Engine 5 / Wwise / Spatial Audio</p>
     </article>
@@ -253,7 +256,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=qKT0tY_AE78" target="_blank" rel="noopener noreferrer">Anima — Spatial Audio</a></h3><span class="project-number">05</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=qKT0tY_AE78" target="_blank" rel="noopener noreferrer">Anima — Spatial Audio</a></h3></div>
       <p class="project-note" data-i18n="text27">Wwise spatial audio demonstration</p>
       <p class="project-tools">Unreal Engine 5 / Wwise</p>
     </article>
@@ -264,7 +267,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=A92j7a0wnoc" target="_blank" rel="noopener noreferrer">Old West Map</a></h3><span class="project-number">06</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=A92j7a0wnoc" target="_blank" rel="noopener noreferrer">Old West Map</a></h3></div>
       <p class="project-note" data-i18n="text28">Unreal Engine 5 & Wwise demonstration</p>
       <p class="project-tools">Unreal Engine 5 / Wwise</p>
     </article>
@@ -275,7 +278,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=ScvnwWGDxz8" target="_blank" rel="noopener noreferrer">Sound Design Trailer</a></h3><span class="project-number">07</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=ScvnwWGDxz8" target="_blank" rel="noopener noreferrer">Sound Design Trailer</a></h3></div>
       <p class="project-note" data-i18n="text30">Trailer sound design</p>
       <p class="project-tools" data-i18n="text31">Unreal Engine 5 / Sound Design</p>
     </article>
@@ -286,7 +289,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=RrIpWo2N9yc" target="_blank" rel="noopener noreferrer">Star Wars — CGI Fan Film</a></h3><span class="project-number">08</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=RrIpWo2N9yc" target="_blank" rel="noopener noreferrer">Star Wars — CGI Fan Film</a></h3></div>
       <p class="project-note" data-i18n="text34">Fan-film excerpt</p>
       <p class="project-tools" data-i18n="text35">Film / Sound Design</p>
     </article>
@@ -297,7 +300,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=6c5U2s4EuI8" target="_blank" rel="noopener noreferrer">Tron — Disc Wars</a></h3><span class="project-number">09</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=6c5U2s4EuI8" target="_blank" rel="noopener noreferrer">Tron — Disc Wars</a></h3></div>
       <p class="project-note" data-i18n="text36">Film-scene excerpt</p>
       <p class="project-tools" data-i18n="text35">Film / Sound Design</p>
     </article>
@@ -308,7 +311,7 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=jj6ssLRoBOI" target="_blank" rel="noopener noreferrer">Roden Crater — James Turrell</a></h3><span class="project-number">10</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=jj6ssLRoBOI" target="_blank" rel="noopener noreferrer">Roden Crater — James Turrell</a></h3></div>
       <p class="project-note" data-i18n="text37">Composition sonore pour une œuvre d’art</p>
       <p class="project-tools" data-i18n="text38">Composition / Art / Sound Design</p>
     </article>
@@ -319,14 +322,14 @@
         <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5.5v13l10-6.5Z" fill="currentColor"/></svg></span>
         <span class="watch" data-i18n="text12">Watch on YouTube</span>
       </a>
-      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=tPBEcP_fl_8" target="_blank" rel="noopener noreferrer">Best-Of Sound Design</a></h3><span class="project-number">11</span></div>
+      <div class="project-title"><h3><a href="https://www.youtube.com/watch?v=tPBEcP_fl_8" target="_blank" rel="noopener noreferrer">Best-Of Sound Design</a></h3></div>
       <p class="project-note" data-i18n="text40">Selected sound design excerpts</p>
       <p class="project-tools" data-i18n="text41">Sound Design / Showreel</p>
     </article></div>
     </section>
     <section class="section about-section shell" id="about" aria-labelledby="about-title">
       <div class="about-grid">
-        <div class="about-heading"><p class="section-index mono" data-i18n="text42">02 / Background</p><h2 id="about-title" data-i18n="text64">About &amp;<br>experience</h2><img class="portrait" src="portrait-colin.png" alt="Portrait of Colin Montanari" data-i18n-alt="text95" width="337" height="421" loading="lazy"><a class="text-link" href="cv-colin-montanari.pdf?v=68495517e1c2" download data-i18n="text43">Download my CV</a></div>
+        <div class="about-heading"><p class="section-index mono" data-i18n="text42">Background</p><h2 id="about-title" data-i18n="text64">About &amp;<br>experience</h2><img class="portrait" src="portrait-colin.png" alt="Portrait of Colin Montanari" data-i18n-alt="text95" width="337" height="421" loading="lazy"><a class="text-link" href="cv-colin-montanari.pdf?v=68495517e1c2" download data-i18n="text43">Download my CV</a></div>
         <div>
           <p class="bio" data-i18n="text65">My focus is interactive audio: building systems, integrating sounds and making them work in the engine. <span class="soft">I trained in sound design and game audio in Montpellier and Montréal, then worked as a Technical Sound Designer at Gameloft Montréal.</span></p>
           <article class="experience"><div class="dates" data-i18n="text66">JUL 2024 — APR 2025<br>Montréal, Canada</div><div><h3>Gameloft Montréal</h3><p class="job-title" lang="en" data-i18n="text44">Technical Sound Designer</p><p data-i18n="text45">Worked on an open-world project with Unreal Engine 5 and Wwise: audio Blueprints, ambience systems, asset creation and integration, dynamic mixing, routing, profiling and debugging. Implemented attenuation, occlusion and obstruction systems.</p></div></article>
@@ -337,11 +340,20 @@
       </div>
     </section>
     <section class="section shell" id="skills" aria-labelledby="skills-title">
-      <div class="section-heading"><div><p class="section-index mono" data-i18n="text48">03 / Tools &amp; practice</p><h2 id="skills-title" data-i18n="text49">My toolkit</h2></div></div>
+      <div class="section-heading"><div><p class="section-index mono" data-i18n="text48">Tools &amp; practice</p><h2 id="skills-title" data-i18n="text49">My toolkit</h2></div></div>
       <div class="skills-grid">
-        <article class="skill-block"><p class="mono" data-i18n="text50">01 — Integration</p><h3 data-i18n="text51">Audio in the engine</h3><p class="tool-names">Unreal Engine 5 · Wwise · Blueprint</p><p data-i18n="text52">Interactive ambience, spatial audio, dynamic mixing, routing and asset integration.</p></article>
-        <article class="skill-block"><p class="mono" data-i18n="text53">02 — Sound</p><h3 data-i18n="text54">Design, edit &amp; mix</h3><p class="tool-names">Reaper · Pro Tools</p><p data-i18n="text55">Sound design, editing, mixing and post-production. Pro Tools certification obtained in 2022.</p></article>
-        <article class="skill-block"><p class="mono" data-i18n="text56">03 — Development</p><h3 data-i18n="text57">Systems &amp; workflow</h3><p class="tool-names">Unity · C# · Perforce</p><p data-i18n="text58">Audio profiling, debugging and optimisation, with a working understanding of 3D production workflows.</p></article>
+        <article class="skill-block"><p class="mono" data-i18n="text50">Integration</p><h3 data-i18n="text51">Audio in the engine</h3><p class="tool-names">Unreal Engine 5 · Wwise · Blueprint</p><p data-i18n="text52">Interactive ambience, spatial audio, dynamic mixing, routing and asset integration.</p></article>
+        <article class="skill-block"><p class="mono" data-i18n="text53">Sound</p><h3 data-i18n="text54">Design, edit &amp; mix</h3><p class="tool-names">Reaper · Pro Tools</p><p data-i18n="text55">Sound design, editing, mixing and post-production. Pro Tools certification obtained in 2022.</p></article>
+        <article class="skill-block"><p class="mono" data-i18n="text56">Development</p><h3 data-i18n="text57">Systems &amp; workflow</h3><p class="tool-names">Unity · C# · Perforce</p><p data-i18n="text58">Audio profiling, debugging and optimisation, with a working understanding of 3D production workflows.</p></article>
+      </div>
+      <div class="environment-showcase">
+        <p class="environment-showcase-eyebrow mono" data-i18n="environmentEyebrow">Environment design</p>
+        <figure class="environment-compare" role="group" data-i18n-aria-label="environmentGroup">
+          <img src="station-avant.webp" alt="Blockout view of the sci-fi environment" data-i18n-alt="environmentBeforeAlt" width="2048" height="505" loading="lazy" decoding="async">
+          <div class="environment-compare-after" aria-hidden="true"><img src="station-apres.webp" alt="" width="2048" height="505" loading="lazy" decoding="async"></div>
+          <span class="environment-compare-handle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M3 12h18"/></svg></span>
+          <input class="environment-compare-range" type="range" min="0" max="100" step="any" value="50" aria-label="Reveal the final scene. Use the left and right arrow keys to compare." data-i18n-aria-label="environmentSlider">
+        </figure>
       </div>
       <div class="spatial-demo" id="spatial-demo" data-no-wave hidden>
         <div class="spatial-heading">
@@ -361,7 +373,7 @@
       </div>
     </section>
     <section class="contact-section shell" id="contact" aria-labelledby="contact-title">
-      <div class="contact-layout"><div><p class="section-index mono" data-i18n="text61">04 / Get in touch</p><h2 id="contact-title">Contact.</h2></div><div><a class="contact-email" href="mailto:son.colin.montanari@gmail.com">son.colin.montanari@gmail.com</a><div class="contact-sub"><span>Avignon, France</span><a class="text-link" href="https://www.youtube.com/@colinmontanarisounddesign7705" target="_blank" rel="noopener noreferrer">YouTube</a><a class="text-link" href="cv-colin-montanari.pdf?v=68495517e1c2" target="_blank" rel="noopener">CV / PDF</a></div></div></div>
+      <div class="contact-layout"><div><p class="section-index mono" data-i18n="text61">Get in touch</p><h2 id="contact-title">Contact.</h2></div><div><a class="contact-email" href="mailto:son.colin.montanari@gmail.com">son.colin.montanari@gmail.com</a><div class="contact-sub"><span>Avignon, France</span><a class="text-link" href="https://www.youtube.com/@colinmontanarisounddesign7705" target="_blank" rel="noopener noreferrer">YouTube</a><a class="text-link" href="cv-colin-montanari.pdf?v=68495517e1c2" target="_blank" rel="noopener">CV / PDF</a></div></div></div>
     </section>
   </main>
   <footer class="shell"><div class="footer-inner"><span>© 2026 Colin Montanari</span><span lang="en" data-i18n="text44">Technical Sound Designer</span><a href="#top" data-i18n="text62">Back to top</a></div></footer>
@@ -369,7 +381,7 @@
   <script>
 
     (() => {
-      const translations = {"text1": {"en": "Skip to content", "fr": "Aller au contenu"}, "text2": {"en": "Work", "fr": "Projets"}, "text3": {"en": "About", "fr": "À propos"}, "text4": {"en": "Toolkit", "fr": "Outils"}, "text5": {"en": "Colin Montanari / Game audio", "fr": "Colin Montanari / Audio de jeu"}, "text6": {"en": "I design and integrate interactive audio with Wwise and Unreal Engine. From ambience systems to spatial audio, I work on how sound responds to the game.", "fr": "Je conçois et intègre de l’audio interactif avec Wwise et Unreal Engine. Des systèmes d’ambiance à l’audio spatial, je travaille sur la façon dont le son réagit au jeu."}, "text7": {"en": "Explore my work", "fr": "Découvrir mes projets"}, "text8": {"en": "View my CV", "fr": "Voir mon CV"}, "text9": {"en": "Start listening", "fr": "À écouter"}, "text10": {"en": "Sound design reel", "fr": "Bande démo"}, "text11": {"en": "Selected excerpts from my work", "fr": "Une sélection de mes réalisations"}, "text12": {"en": "Watch on YouTube", "fr": "Voir sur YouTube"}, "text13": {"en": "Game audio · Sound design · Integration", "fr": "Audio de jeu · Sound design · Intégration"}, "text14": {"en": "My projects", "fr": "Mes projets"}, "text15": {"en": "Selected work", "fr": "Projets sélectionnés"}, "text16": {"en": "Interactive audio, sound design and film excerpts.", "fr": "Audio interactif, sound design et extraits de films."}, "text17": {"en": "More on YouTube", "fr": "Plus sur YouTube"}, "text18": {"en": "Interactive audio", "fr": "Audio interactif"}, "text19": {"en": "Game audio demonstration", "fr": "Démonstration d’audio de jeu"}, "text20": {"en": "Foliage collision demonstration", "fr": "Démonstration des collisions avec la végétation"}, "text21": {"en": "Spatial audio", "fr": "Audio spatial"}, "text22": {"en": "VR audio demonstration", "fr": "Démonstration audio en réalité virtuelle"}, "text23": {"en": "Unreal Engine 5 / Wwise / VR / Spatial Audio", "fr": "Unreal Engine 5 / Wwise / VR / Audio spatial"}, "text24": {"en": "Game project", "fr": "Projet de jeu"}, "text25": {"en": "Campus ADN · Audio integration lead", "fr": "Campus ADN · Responsable de l’intégration audio"}, "text26": {"en": "Unreal Engine 5 / Wwise / Spatial Audio", "fr": "Unreal Engine 5 / Wwise / Audio spatial"}, "text27": {"en": "Wwise spatial audio demonstration", "fr": "Démonstration d’audio spatial dans Wwise"}, "text28": {"en": "Unreal Engine 5 & Wwise demonstration", "fr": "Démonstration dans Unreal Engine 5 et Wwise"}, "text29": {"en": "Sound design", "fr": "Sound design"}, "text30": {"en": "Trailer sound design", "fr": "Sound design de bande-annonce"}, "text31": {"en": "Unreal Engine 5 / Sound Design", "fr": "Unreal Engine 5 / Sound design"}, "text32": {"en": "Game trailer", "fr": "Bande-annonce de jeu"}, "text33": {"en": "Game Audio / Sound Design", "fr": "Audio de jeu / Sound design"}, "text34": {"en": "Fan-film excerpt", "fr": "Extrait de fan-film"}, "text35": {"en": "Film / Sound Design", "fr": "Film / Sound design"}, "text36": {"en": "Film-scene excerpt", "fr": "Extrait de scène de film"}, "text37": {"en": "Installation project", "fr": "Projet d’installation"}, "text38": {"en": "Sound Design / Installation", "fr": "Sound design / Installation"}, "text39": {"en": "Showreel", "fr": "Bande démo"}, "text40": {"en": "Selected sound design excerpts", "fr": "Une sélection d’extraits de sound design"}, "text41": {"en": "Sound Design / Showreel", "fr": "Sound design / Bande démo"}, "text42": {"en": "02 / Background", "fr": "02 / Parcours"}, "text43": {"en": "Download my CV", "fr": "Télécharger mon CV"}, "text44": {"en": "Technical Sound Designer", "fr": "Technical Sound Designer"}, "text45": {"en": "Worked on an open-world project with Unreal Engine 5 and Wwise: audio Blueprints, ambience systems, asset creation and integration, dynamic mixing, routing, profiling and debugging. Implemented attenuation, occlusion and obstruction systems.", "fr": "Travail sur un projet en monde ouvert avec Unreal Engine 5 et Wwise : Blueprints audio, systèmes d’ambiance, création et intégration de sons, mixage dynamique, routage, profilage et débogage. Mise en place de systèmes d’atténuation, d’occlusion et d’obstruction."}, "text46": {"en": "Audio Integration Lead", "fr": "Responsable de l’intégration audio"}, "text47": {"en": "Led audio integration for a 3D platformer built with Unreal Engine and Wwise. Responsibilities included team coordination, asset integration and audio systems.", "fr": "Responsable de l’intégration audio d’un jeu de plateforme 3D développé avec Unreal Engine et Wwise : coordination de l’équipe, intégration des sons et mise en place des systèmes audio."}, "text48": {"en": "03 / Tools &amp; practice", "fr": "03 / Outils et pratique"}, "text49": {"en": "My toolkit", "fr": "Mes outils"}, "text50": {"en": "01 — Integration", "fr": "01 — Intégration"}, "text51": {"en": "Audio in the engine", "fr": "L’audio dans le moteur"}, "text52": {"en": "Interactive ambience, spatial audio, dynamic mixing, routing and asset integration.", "fr": "Ambiances interactives, audio spatial, mixage dynamique, routage et intégration des sons."}, "text53": {"en": "02 — Sound", "fr": "02 — Son"}, "text54": {"en": "Design, edit &amp; mix", "fr": "Conception, montage et mixage"}, "text55": {"en": "Sound design, editing, mixing and post-production. Pro Tools certification obtained in 2022.", "fr": "Sound design, montage, mixage et postproduction. Certification Pro Tools obtenue en 2022."}, "text56": {"en": "03 — Development", "fr": "03 — Développement"}, "text57": {"en": "Systems &amp; workflow", "fr": "Systèmes et méthode"}, "text58": {"en": "Audio profiling, debugging and optimisation, with a working understanding of 3D production workflows.", "fr": "Profilage, débogage et optimisation audio, avec une connaissance des méthodes de production 3D."}, "text59": {"en": "Game audio design &amp; integration · 2023–2024", "fr": "Conception et intégration audio pour le jeu vidéo · 2023–2024"}, "text60": {"en": "Sound design qualification, RNCP level 6 · 2020–2022", "fr": "Formation Sound Designer, RNCP niveau 6 · 2020–2022"}, "text61": {"en": "04 / Get in touch", "fr": "04 / Me contacter"}, "text62": {"en": "Back to top", "fr": "Retour en haut"}, "text63": {"en": "<span class=\"first-line\">Technical</span> sound designer<span class=\"period\">.</span>", "fr": "<span class=\"first-line\">Technical</span> sound designer<span class=\"period\">.</span>"}, "text64": {"en": "About &amp;<br>experience", "fr": "Parcours et<br>expérience"}, "text65": {"en": "My focus is interactive audio: building systems, integrating sounds and making them work in the engine. <span class=\"soft\">I trained in sound design and game audio in Montpellier and Montréal, then worked as a Technical Sound Designer at Gameloft Montréal.</span>", "fr": "Je me concentre sur l’audio interactif : concevoir des systèmes, intégrer des sons et les faire fonctionner dans le moteur. <span class=\"soft\">Je me suis formé au sound design et à l’audio de jeu à Montpellier et à Montréal, avant de travailler comme <span lang=\"en\">Technical Sound Designer</span> chez Gameloft Montréal.</span>"}, "text66": {"en": "JUL 2024 — APR 2025<br>Montréal, Canada", "fr": "JUIL. 2024 — AVR. 2025<br>Montréal, Canada"}, "text67": {"en": "FEB 2024 — JUN 2024<br>Campus ADN", "fr": "FÉVR. 2024 — JUIN 2024<br>Campus ADN"}, "text68": {"en": "Colin Montanari, back to top", "fr": "Colin Montanari, retour en haut"}, "text69": {"en": "Main navigation", "fr": "Navigation principale"}, "text70": {"en": "Watch Colin Montanari's Best-Of Sound Design on YouTube", "fr": "Voir Colin Montanari — Best-Of Sound Design sur YouTube"}, "text71": {"en": "Best-Of Sound Design video thumbnail", "fr": "Miniature de la vidéo Best-Of Sound Design"}, "text72": {"en": "Watch Chess Cards Game on YouTube", "fr": "Voir Chess Cards Game sur YouTube"}, "text73": {"en": "Chess Cards Game video thumbnail", "fr": "Miniature de la vidéo Chess Cards Game"}, "text74": {"en": "Watch Foliage Collision on YouTube", "fr": "Voir Foliage Collision sur YouTube"}, "text75": {"en": "Foliage Collision video thumbnail", "fr": "Miniature de la vidéo Foliage Collision"}, "text76": {"en": "Watch Spatial Audio VR on YouTube", "fr": "Voir Spatial Audio VR sur YouTube"}, "text77": {"en": "Spatial Audio VR video thumbnail", "fr": "Miniature de la vidéo Spatial Audio VR"}, "text78": {"en": "Watch Anima on YouTube", "fr": "Voir Anima sur YouTube"}, "text79": {"en": "Anima video thumbnail", "fr": "Miniature de la vidéo Anima"}, "text80": {"en": "Watch Anima — Spatial Audio on YouTube", "fr": "Voir Anima — Spatial Audio sur YouTube"}, "text81": {"en": "Anima — Spatial Audio video thumbnail", "fr": "Miniature de la vidéo Anima — Spatial Audio"}, "text82": {"en": "Watch Old West Map on YouTube", "fr": "Voir Old West Map sur YouTube"}, "text83": {"en": "Old West Map video thumbnail", "fr": "Miniature de la vidéo Old West Map"}, "text84": {"en": "Watch Sound Design Trailer on YouTube", "fr": "Voir Sound Design Trailer sur YouTube"}, "text85": {"en": "Sound Design Trailer video thumbnail", "fr": "Miniature de la vidéo Sound Design Trailer"}, "text86": {"en": "Watch Paragon — Announce Trailer on YouTube", "fr": "Voir Paragon — Announce Trailer sur YouTube"}, "text87": {"en": "Paragon — Announce Trailer video thumbnail", "fr": "Miniature de la vidéo Paragon — Announce Trailer"}, "text88": {"en": "Watch Star Wars — CGI Fan Film on YouTube", "fr": "Voir Star Wars — CGI Fan Film sur YouTube"}, "text89": {"en": "Star Wars — CGI Fan Film video thumbnail", "fr": "Miniature de la vidéo Star Wars — CGI Fan Film"}, "text90": {"en": "Watch Tron — Disc Wars on YouTube", "fr": "Voir Tron — Disc Wars sur YouTube"}, "text91": {"en": "Tron — Disc Wars video thumbnail", "fr": "Miniature de la vidéo Tron — Disc Wars"}, "text92": {"en": "Watch Roden Crater — James Turrell on YouTube", "fr": "Voir Roden Crater — James Turrell sur YouTube"}, "text93": {"en": "Roden Crater — James Turrell video thumbnail", "fr": "Miniature de la vidéo Roden Crater — James Turrell"}, "text94": {"en": "Watch Best-Of Sound Design on YouTube", "fr": "Voir Best-Of Sound Design sur YouTube"}, "text95": {"en": "Portrait of Colin Montanari", "fr": "Portrait de Colin Montanari"}, "language": {"en": "Language", "fr": "Langue"}, "animaSteam": {"en": "Anima on Steam", "fr": "Anima sur Steam"}, "acousticToggle": {"en": "Waves", "fr": "Ondes"}, "acousticToggleLabel": {"en": "Enable or disable interactive waves", "fr": "Activer ou désactiver les ondes interactives"}, "academicTranscript": {"fr": "Consulter le bulletin d’études collégiales (PDF) ↗", "en": "View college transcript (PDF) ↗"}, "acfaTranscript": {"fr": "Consulter le bulletin ACFA (PDF) ↗", "en": "View ACFA transcript (PDF) ↗"}, "acfaDiploma": {"fr": "Consulter le diplôme ACFA (PDF) ↗", "en": "View ACFA diploma (PDF) ↗"}};
+      const translations = {"text1": {"en": "Skip to content", "fr": "Aller au contenu"}, "text2": {"en": "Work", "fr": "Projets"}, "text3": {"en": "About", "fr": "À propos"}, "text4": {"en": "Toolkit", "fr": "Outils"}, "text5": {"en": "Colin Montanari / Game audio", "fr": "Colin Montanari / Audio de jeu"}, "text6": {"en": "I design and integrate interactive audio with Wwise and Unreal Engine. From ambience systems to spatial audio, I work on how sound responds to the game.", "fr": "Je conçois et intègre de l’audio interactif avec Wwise et Unreal Engine. Des systèmes d’ambiance à l’audio spatial, je travaille sur la façon dont le son réagit au jeu."}, "text7": {"en": "Explore my work", "fr": "Découvrir mes projets"}, "text8": {"en": "View my CV", "fr": "Voir mon CV"}, "text9": {"en": "Start listening", "fr": "À écouter"}, "text10": {"en": "Sound design reel", "fr": "Bande démo"}, "text11": {"en": "Selected excerpts from my work", "fr": "Une sélection de mes réalisations"}, "text12": {"en": "Watch on YouTube", "fr": "Voir sur YouTube"}, "text13": {"en": "Game audio · Sound design · Integration", "fr": "Audio de jeu · Sound design · Intégration"}, "text14": {"en": "My projects", "fr": "Mes projets"}, "text15": {"en": "Selected work", "fr": "Projets sélectionnés"}, "text16": {"en": "Interactive audio, sound design and film excerpts.", "fr": "Audio interactif, sound design et extraits de films."}, "text17": {"en": "More on YouTube", "fr": "Plus sur YouTube"}, "text18": {"en": "Interactive audio", "fr": "Audio interactif"}, "text19": {"en": "Game audio demonstration", "fr": "Démonstration d’audio de jeu"}, "text20": {"en": "Foliage collision demonstration", "fr": "Démonstration des collisions avec la végétation"}, "text21": {"en": "Spatial audio", "fr": "Audio spatial"}, "text22": {"en": "VR audio demonstration", "fr": "Démonstration audio en réalité virtuelle"}, "text23": {"en": "Unreal Engine 5 / Wwise / VR / Spatial Audio", "fr": "Unreal Engine 5 / Wwise / VR / Audio spatial"}, "text24": {"en": "Game project", "fr": "Projet de jeu"}, "text25": {"en": "Campus ADN · Audio integration lead", "fr": "Campus ADN · Responsable de l’intégration audio"}, "text26": {"en": "Unreal Engine 5 / Wwise / Spatial Audio", "fr": "Unreal Engine 5 / Wwise / Audio spatial"}, "text27": {"en": "Wwise spatial audio demonstration", "fr": "Démonstration d’audio spatial dans Wwise"}, "text28": {"en": "Unreal Engine 5 & Wwise demonstration", "fr": "Démonstration dans Unreal Engine 5 et Wwise"}, "text29": {"en": "Sound design", "fr": "Sound design"}, "text30": {"en": "Trailer sound design", "fr": "Sound design de bande-annonce"}, "text31": {"en": "Unreal Engine 5 / Sound Design", "fr": "Unreal Engine 5 / Sound design"}, "text32": {"en": "Game trailer", "fr": "Bande-annonce de jeu"}, "text33": {"en": "Game Audio / Sound Design", "fr": "Audio de jeu / Sound design"}, "text34": {"en": "Fan-film excerpt", "fr": "Extrait de fan-film"}, "text35": {"en": "Film / Sound Design", "fr": "Film / Sound design"}, "text36": {"en": "Film-scene excerpt", "fr": "Extrait de scène de film"}, "text37": {"en": "Installation project", "fr": "Projet d’installation"}, "text38": {"en": "Sound Design / Installation", "fr": "Sound design / Installation"}, "text39": {"en": "Showreel", "fr": "Bande démo"}, "text40": {"en": "Selected sound design excerpts", "fr": "Une sélection d’extraits de sound design"}, "text41": {"en": "Sound Design / Showreel", "fr": "Sound design / Bande démo"}, "text42": {"en": "Background", "fr": "Parcours"}, "text43": {"en": "Download my CV", "fr": "Télécharger mon CV"}, "text44": {"en": "Technical Sound Designer", "fr": "Technical Sound Designer"}, "text45": {"en": "Worked on an open-world project with Unreal Engine 5 and Wwise: audio Blueprints, ambience systems, asset creation and integration, dynamic mixing, routing, profiling and debugging. Implemented attenuation, occlusion and obstruction systems.", "fr": "Travail sur un projet en monde ouvert avec Unreal Engine 5 et Wwise : Blueprints audio, systèmes d’ambiance, création et intégration de sons, mixage dynamique, routage, profilage et débogage. Mise en place de systèmes d’atténuation, d’occlusion et d’obstruction."}, "text46": {"en": "Audio Integration Lead", "fr": "Responsable de l’intégration audio"}, "text47": {"en": "Led audio integration for a 3D platformer built with Unreal Engine and Wwise. Responsibilities included team coordination, asset integration and audio systems.", "fr": "Responsable de l’intégration audio d’un jeu de plateforme 3D développé avec Unreal Engine et Wwise : coordination de l’équipe, intégration des sons et mise en place des systèmes audio."}, "text48": {"en": "Tools &amp; practice", "fr": "Outils et pratique"}, "text49": {"en": "My toolkit", "fr": "Mes outils"}, "text50": {"en": "Integration", "fr": "Intégration"}, "text51": {"en": "Audio in the engine", "fr": "L’audio dans le moteur"}, "text52": {"en": "Interactive ambience, spatial audio, dynamic mixing, routing and asset integration.", "fr": "Ambiances interactives, audio spatial, mixage dynamique, routage et intégration des sons."}, "text53": {"en": "Sound", "fr": "Son"}, "text54": {"en": "Design, edit &amp; mix", "fr": "Conception, montage et mixage"}, "text55": {"en": "Sound design, editing, mixing and post-production. Pro Tools certification obtained in 2022.", "fr": "Sound design, montage, mixage et postproduction. Certification Pro Tools obtenue en 2022."}, "text56": {"en": "Development", "fr": "Développement"}, "text57": {"en": "Systems &amp; workflow", "fr": "Systèmes et méthode"}, "text58": {"en": "Audio profiling, debugging and optimisation, with a working understanding of 3D production workflows.", "fr": "Profilage, débogage et optimisation audio, avec une connaissance des méthodes de production 3D."}, "text59": {"en": "Game audio design &amp; integration · 2023–2024", "fr": "Conception et intégration audio pour le jeu vidéo · 2023–2024"}, "text60": {"en": "Sound design qualification, RNCP level 6 · 2020–2022", "fr": "Formation Sound Designer, RNCP niveau 6 · 2020–2022"}, "text61": {"en": "Get in touch", "fr": "Me contacter"}, "text62": {"en": "Back to top", "fr": "Retour en haut"}, "text63": {"en": "<span class=\"first-line\">Technical</span> sound designer<span class=\"period\">.</span>", "fr": "<span class=\"first-line\">Technical</span> sound designer<span class=\"period\">.</span>"}, "text64": {"en": "About &amp;<br>experience", "fr": "Parcours et<br>expérience"}, "text65": {"en": "My focus is interactive audio: building systems, integrating sounds and making them work in the engine. <span class=\"soft\">I trained in sound design and game audio in Montpellier and Montréal, then worked as a Technical Sound Designer at Gameloft Montréal.</span>", "fr": "Je me concentre sur l’audio interactif : concevoir des systèmes, intégrer des sons et les faire fonctionner dans le moteur. <span class=\"soft\">Je me suis formé au sound design et à l’audio de jeu à Montpellier et à Montréal, avant de travailler comme <span lang=\"en\">Technical Sound Designer</span> chez Gameloft Montréal.</span>"}, "text66": {"en": "JUL 2024 — APR 2025<br>Montréal, Canada", "fr": "JUIL. 2024 — AVR. 2025<br>Montréal, Canada"}, "text67": {"en": "FEB 2024 — JUN 2024<br>Campus ADN", "fr": "FÉVR. 2024 — JUIN 2024<br>Campus ADN"}, "text68": {"en": "Colin Montanari, back to top", "fr": "Colin Montanari, retour en haut"}, "text69": {"en": "Main navigation", "fr": "Navigation principale"}, "text70": {"en": "Watch Colin Montanari's Best-Of Sound Design on YouTube", "fr": "Voir Colin Montanari — Best-Of Sound Design sur YouTube"}, "text71": {"en": "Best-Of Sound Design video thumbnail", "fr": "Miniature de la vidéo Best-Of Sound Design"}, "text72": {"en": "Watch Chess Cards Game on YouTube", "fr": "Voir Chess Cards Game sur YouTube"}, "text73": {"en": "Chess Cards Game video thumbnail", "fr": "Miniature de la vidéo Chess Cards Game"}, "text74": {"en": "Watch Foliage Collision on YouTube", "fr": "Voir Foliage Collision sur YouTube"}, "text75": {"en": "Foliage Collision video thumbnail", "fr": "Miniature de la vidéo Foliage Collision"}, "text76": {"en": "Watch Spatial Audio VR on YouTube", "fr": "Voir Spatial Audio VR sur YouTube"}, "text77": {"en": "Spatial Audio VR video thumbnail", "fr": "Miniature de la vidéo Spatial Audio VR"}, "text78": {"en": "Watch Anima on YouTube", "fr": "Voir Anima sur YouTube"}, "text79": {"en": "Anima video thumbnail", "fr": "Miniature de la vidéo Anima"}, "text80": {"en": "Watch Anima — Spatial Audio on YouTube", "fr": "Voir Anima — Spatial Audio sur YouTube"}, "text81": {"en": "Anima — Spatial Audio video thumbnail", "fr": "Miniature de la vidéo Anima — Spatial Audio"}, "text82": {"en": "Watch Old West Map on YouTube", "fr": "Voir Old West Map sur YouTube"}, "text83": {"en": "Old West Map video thumbnail", "fr": "Miniature de la vidéo Old West Map"}, "text84": {"en": "Watch Sound Design Trailer on YouTube", "fr": "Voir Sound Design Trailer sur YouTube"}, "text85": {"en": "Sound Design Trailer video thumbnail", "fr": "Miniature de la vidéo Sound Design Trailer"}, "text86": {"en": "Watch Paragon — Announce Trailer on YouTube", "fr": "Voir Paragon — Announce Trailer sur YouTube"}, "text87": {"en": "Paragon — Announce Trailer video thumbnail", "fr": "Miniature de la vidéo Paragon — Announce Trailer"}, "text88": {"en": "Watch Star Wars — CGI Fan Film on YouTube", "fr": "Voir Star Wars — CGI Fan Film sur YouTube"}, "text89": {"en": "Star Wars — CGI Fan Film video thumbnail", "fr": "Miniature de la vidéo Star Wars — CGI Fan Film"}, "text90": {"en": "Watch Tron — Disc Wars on YouTube", "fr": "Voir Tron — Disc Wars sur YouTube"}, "text91": {"en": "Tron — Disc Wars video thumbnail", "fr": "Miniature de la vidéo Tron — Disc Wars"}, "text92": {"en": "Watch Roden Crater — James Turrell on YouTube", "fr": "Voir Roden Crater — James Turrell sur YouTube"}, "text93": {"en": "Roden Crater — James Turrell video thumbnail", "fr": "Miniature de la vidéo Roden Crater — James Turrell"}, "text94": {"en": "Watch Best-Of Sound Design on YouTube", "fr": "Voir Best-Of Sound Design sur YouTube"}, "text95": {"en": "Portrait of Colin Montanari", "fr": "Portrait de Colin Montanari"}, "language": {"en": "Language", "fr": "Langue"}, "animaSteam": {"en": "Anima on Steam", "fr": "Anima sur Steam"}, "acousticToggle": {"en": "Waves", "fr": "Ondes"}, "acousticToggleLabel": {"en": "Enable or disable interactive waves", "fr": "Activer ou désactiver les ondes interactives"}, "academicTranscript": {"fr": "Consulter le bulletin d’études collégiales (PDF) ↗", "en": "View college transcript (PDF) ↗"}, "acfaTranscript": {"fr": "Consulter le bulletin ACFA (PDF) ↗", "en": "View ACFA transcript (PDF) ↗"}, "acfaDiploma": {"fr": "Consulter le diplôme ACFA (PDF) ↗", "en": "View ACFA diploma (PDF) ↗"}};
       Object.assign(translations, {
         text23: { en: 'Unreal Engine 5 / Wwise / VR / Spatial Audio / Game Dev', fr: 'Unreal Engine 5 / Wwise / VR / Audio spatial / Développement de jeu' },
         text37: { en: 'Original sound composition for an artwork', fr: 'Composition sonore originale pour une œuvre d’art' },
@@ -380,7 +392,11 @@
         text99: { en: 'Audio reactive scene built with Unreal Engine 5 and Wwise', fr: 'Scène audio réactive réalisée avec Unreal Engine 5 et Wwise' },
         text100: { en: 'Watch Audio Reactive Scene on YouTube', fr: 'Voir Scène audio réactive sur YouTube' },
         text101: { en: 'Audio Reactive Scene video thumbnail', fr: 'Miniature de la vidéo Scène audio réactive' },
-        text24: { en: 'Audio demo', fr: 'Démo audio' }
+        text24: { en: 'Audio demo', fr: 'Démo audio' },
+        environmentEyebrow: { en: 'Environment design', fr: 'Conception d’environnement' },
+        environmentGroup: { en: 'Before and after environment comparison', fr: 'Comparaison de l’environnement avant et après' },
+        environmentBeforeAlt: { en: 'Blockout view of the sci-fi environment', fr: 'Vue blockout de l’environnement de science-fiction' },
+        environmentSlider: { en: 'Reveal the final scene. Use the left and right arrow keys to compare.', fr: 'Révéler la scène finale. Utilisez les flèches gauche et droite pour comparer.' }
       });
       const buttons = [...document.querySelectorAll('[data-language]')];
       const content = [...document.querySelectorAll('[data-i18n]')];
@@ -422,6 +438,19 @@
       setLanguage(initialLanguage);
       document.documentElement.classList.add('has-language-switch');
     })();
+    document.querySelectorAll('.environment-compare').forEach(comparison => {
+      const range = comparison.querySelector('.environment-compare-range');
+      const setPosition = value => comparison.style.setProperty('--reveal', `${value}%`);
+      range.addEventListener('input', () => setPosition(range.value));
+      comparison.addEventListener('pointermove', event => {
+        if (event.pointerType === 'touch' && event.buttons === 0) return;
+        const bounds = comparison.getBoundingClientRect();
+        const value = Math.max(0, Math.min(100, (event.clientX - bounds.left) / bounds.width * 100));
+        range.value = String(value);
+        setPosition(value);
+      });
+      setPosition(range.value);
+    });
 // A damped 2D pressure field. Neumann boundaries reflect at the actual content.
 class PageAcousticField {
   constructor(nx, ny) {
@@ -461,24 +490,41 @@ class PageAcousticField {
     }
     this.sources.forEach(s=>this.wakeTile(Math.floor(s.x/size),Math.floor(s.y/size)));
   }
-  setObstacles(rectangles, glyphPixels = null) {
-    this.solid.fill(0);
-    if (glyphPixels) {
-      for (let i = 0; i < this.solid.length; i++) this.solid[i] = glyphPixels[i * 4 + 3] >= 72 ? 1 : 0;
+  setObstacles(pixels) {
+    for (let i = 0; i < this.solid.length; i++) {
+      this.solid[i] = pixels[i * 4 + 3] >= 64 ? 1 : 0;
+      if (this.solid[i]) this.p[i] = this.old[i] = this.next[i] = 0;
     }
-    for (const r of rectangles) {
-      const x0 = Math.max(1, Math.floor(r.x)), y0 = Math.max(1, Math.floor(r.y));
-      const x1 = Math.min(this.nx - 2, Math.ceil(r.x + r.w));
-      const y1 = Math.min(this.ny - 2, Math.ceil(r.y + r.h));
-      if (x1 < x0 || y1 < y0) continue;
-      for (let y = y0; y <= y1; y++) this.solid.fill(1, y * this.nx + x0, y * this.nx + x1 + 1);
-    }
-    for (let i = 0; i < this.solid.length; i++) if (this.solid[i]) this.p[i] = this.old[i] = this.next[i] = 0;
+    this.sources = this.sources.filter(source => !this.solid[source.y * this.nx + source.x]);
+    for (const source of this.sources) source.samples = this.sourceSamples(source.x, source.y);
     this.rebuildTiles();
   }
+  sourceSamples(x, y) {
+    const { nx, ny, solid } = this;
+    const samples = [];
+    // A source near a wall must not inject pressure on its far side.
+    for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
+      const targetX = x + dx, targetY = y + dy;
+      if (targetX < 1 || targetX >= nx - 1 || targetY < 1 || targetY >= ny - 1) continue;
+      const distance = Math.max(Math.abs(dx), Math.abs(dy));
+      let previousX = x, previousY = y, clear = true;
+      for (let step = 1; step <= distance; step++) {
+        const nextX = x + Math.round(dx * step / distance);
+        const nextY = y + Math.round(dy * step / distance);
+        if (solid[nextY * nx + nextX] || solid[previousY * nx + nextX] || solid[nextY * nx + previousX]) {
+          clear = false;
+          break;
+        }
+        previousX = nextX;
+        previousY = nextY;
+      }
+      if (clear) samples.push({ index: targetY * nx + targetX, gain: Math.exp(-(dx * dx + dy * dy) / 6) });
+    }
+    return samples;
+  }
   emit(x, y) {
-    x = Math.max(3, Math.min(this.nx - 4, Math.round(x)));
-    y = Math.max(3, Math.min(this.ny - 4, Math.round(y)));
+    x = Math.max(3, Math.min(this.nx - 4, Math.floor(x)));
+    y = Math.max(3, Math.min(this.ny - 4, Math.floor(y)));
     // A click on non-link text still emits, just outside that piece of text.
     if (this.solid[y * this.nx + x]) {
       let found = false;
@@ -494,7 +540,7 @@ class PageAcousticField {
       if (!found) return null;
     }
     if (this.sources.length >= 4) this.sources.shift();
-    this.sources.push({ x, y, age: 0 });
+    this.sources.push({ x, y, age: 0, samples: this.sourceSamples(x, y) });
     this.wakeTile(Math.floor(x/this.tileSize),Math.floor(y/this.tileSize));
     return { x, y };
   }
@@ -537,10 +583,7 @@ class PageAcousticField {
       const age = s.age++;
       const envelope = PageWaveSignal.envelope(age/PageWaveSignal.stepRate);
       const force = .019 * Math.sin(age * 2 * Math.PI / PageWaveSignal.period) * envelope;
-      for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
-        const x = s.x + dx, y = s.y + dy, i = y * nx + x;
-        if (x > 0 && x < nx - 1 && y > 0 && y < ny - 1 && !solid[i]) n[i] += force * Math.exp(-(dx * dx + dy * dy) / 6);
-      }
+      for (const {index, gain} of s.samples) n[index] += force * gain;
     }
     this.sources = this.sources.filter(s => s.age <= PageWaveSignal.lastStep);
     // Retire inaudible numerical tails rather than leaving frozen pressure.
@@ -566,18 +609,20 @@ function acousticFrontOpacity(gradient) {
   const canvas = document.querySelector('#page-acoustics');
   const ctx = canvas.getContext('2d', { alpha: true });
   if (!ctx) return;
-  const glyphRaster = document.createElement('canvas');
-  const glyphCtx = glyphRaster.getContext('2d', {willReadFrequently:true});
-  if (!glyphCtx) return;
+  const obstacleRaster = document.createElement('canvas');
+  const mask = obstacleRaster.getContext('2d', {willReadFrequently:true});
+  if (!mask) return;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  const toggle = document.querySelector('#wave-toggle');
   const waveAudio = new PageWaveAudio();
   const interactive = 'a,button,input,select,textarea,summary,video,audio,iframe,[role="button"],[contenteditable="true"],[data-no-wave]';
-  const letterSpacingSupported = 'letterSpacing' in glyphCtx;
-  let enabled = true, field, cell, originX, originY, width = 0, height = 0;
+  const solidSurfaces = 'header,.skip-link:focus,.feature-visual,.project-visual,.button,.environment-compare,[data-no-wave],main :is(img,video,audio,iframe,canvas)';
+  const borderedSurfaces = '.hero-details,.about-section,.experience,.education,.certification,.skill-block,.environment-showcase,.contact-section,.text-link,.contact-email,footer';
+  const letterSpacingSupported = 'letterSpacing' in mask;
+  let field, cell, originX, originY, width = 0, height = 0;
   let dirty = true, frame = 0, lastTime = 0, carry = 0, lastEmission = -Infinity, quietFrames = 0;
   let markers = [], down = null;
   let textLayoutDirty = true, textInk = [];
+  let coveredSurfaces;
   const pad = 100;
 
   function collectTextInk() {
@@ -588,12 +633,12 @@ function acousticFrontOpacity(gradient) {
       let node;
       while ((node = walker.nextNode())) {
         const parent = node.parentElement;
-        if (!node.textContent.trim() || parent.closest('.feature-visual,.project-visual,svg,canvas,[aria-hidden="true"]')) continue;
+        if (!node.textContent.trim() || parent.closest(solidSurfaces) || parent.closest('svg,[hidden],.sr-only,[aria-hidden="true"]')) continue;
         const style = getComputedStyle(parent);
         if (style.visibility === 'hidden' || style.display === 'none') continue;
         const font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-        glyphCtx.font = font;
-        const metrics = glyphCtx.measureText('Mg');
+        mask.font = font;
+        const metrics = mask.measureText('Mg');
         const ascent = metrics.fontBoundingBoxAscent ?? parseFloat(style.fontSize) * .9;
         const descent = metrics.fontBoundingBoxDescent ?? parseFloat(style.fontSize) * .25;
         function record(text, r) {
@@ -625,19 +670,56 @@ function acousticFrontOpacity(gradient) {
   }
   function paintTextInk() {
     if (textLayoutDirty) collectTextInk();
-    glyphCtx.setTransform(1,0,0,1,0,0);
-    glyphCtx.clearRect(0,0,glyphRaster.width,glyphRaster.height);
-    glyphCtx.setTransform(1/cell,0,0,1/cell,-originX/cell,-originY/cell);
-    glyphCtx.fillStyle = '#fff'; glyphCtx.textBaseline = 'alphabetic'; glyphCtx.textAlign = 'left';
+    mask.setTransform(1,0,0,1,0,0);
+    mask.clearRect(0,0,obstacleRaster.width,obstacleRaster.height);
+    mask.setTransform(1/cell,0,0,1/cell,-originX/cell,-originY/cell);
+    mask.fillStyle = '#fff'; mask.textBaseline = 'alphabetic'; mask.textAlign = 'left';
     for (const ink of textInk) {
       if (ink.bottom < originY || ink.top > originY + field.ny * cell) continue;
-      glyphCtx.font = ink.font;
-      glyphCtx.letterSpacing = ink.spacing === 'normal' ? '0px' : ink.spacing;
-      glyphCtx.wordSpacing = ink.wordSpacing === 'normal' ? '0px' : ink.wordSpacing;
-      glyphCtx.fontKerning = ink.kerning; glyphCtx.direction = ink.direction;
-      glyphCtx.fillText(ink.text,ink.x,ink.baseline);
+      mask.font = ink.font;
+      mask.letterSpacing = ink.spacing === 'normal' ? '0px' : ink.spacing;
+      mask.wordSpacing = ink.wordSpacing === 'normal' ? '0px' : ink.wordSpacing;
+      mask.fontKerning = ink.kerning; mask.direction = ink.direction;
+      mask.fillText(ink.text,ink.x,ink.baseline);
     }
-    return glyphCtx.getImageData(0,0,glyphRaster.width,glyphRaster.height).data;
+  }
+
+  function paintSurfaces() {
+    coveredSurfaces = new Path2D();
+    mask.setTransform(1/cell,0,0,1/cell,-originX/cell,(window.scrollY-originY)/cell);
+    for (const element of document.querySelectorAll(`${solidSurfaces},${borderedSurfaces}`)) {
+      if (element.parentElement.closest(solidSurfaces)) continue;
+      const style = getComputedStyle(element);
+      if (style.visibility !== 'visible') continue;
+      const {left, top, right, bottom, width: w, height: h} = element.getBoundingClientRect();
+      if (!w || !h || bottom < -pad || top > height + pad || right < -pad || left > width + pad) continue;
+      const length = (value, size) => (parseFloat(value) || 0) * (value.endsWith('%') ? size / 100 : 1);
+      const radii = ['TopLeft','TopRight','BottomRight','BottomLeft'].map(corner => {
+        const [x, y = x] = style[`border${corner}Radius`].split(' ');
+        return {x: length(x, w), y: length(y, h)};
+      });
+      if (element.matches(solidSurfaces)) {
+        coveredSurfaces.roundRect(left, top, w, h, radii);
+        continue;
+      }
+      // Rasterize thin borders at a minimum of one cell so the solver sees a continuous wall.
+      const [bt, br, bb, bl] = ['Top','Right','Bottom','Left'].map(side => {
+        const border = parseFloat(style[`border${side}Width`]) || 0;
+        return border && Math.max(border, cell);
+      });
+      if (!(bt || br || bb || bl)) continue;
+      const outline = new Path2D();
+      outline.roundRect(left, top, w, h, radii);
+      if (w > bl + br && h > bt + bb) {
+        const innerRadii = [[bl,bt],[br,bt],[br,bb],[bl,bb]].map(([bx, by], i) => ({
+          x: Math.max(0, radii[i].x - bx),
+          y: Math.max(0, radii[i].y - by)
+        }));
+        outline.roundRect(left + bl, top + bt, w - bl - br, h - bt - bb, innerRadii);
+      }
+      mask.fill(outline, 'evenodd');
+    }
+    mask.fill(coveredSurfaces);
   }
 
   function reset() {
@@ -655,7 +737,7 @@ function acousticFrontOpacity(gradient) {
       const nx = Math.ceil((w + 2 * pad) / cell), ny = Math.ceil((h + 2 * pad) / cell);
       originX = -pad; originY = Math.floor((window.scrollY - pad) / cell) * cell;
       field = new PageAcousticField(nx, ny);
-      glyphRaster.width = nx; glyphRaster.height = ny; textLayoutDirty = true;
+      obstacleRaster.width = nx; obstacleRaster.height = ny; textLayoutDirty = true;
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(w * ratio); canvas.height = Math.round(h * ratio);
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
@@ -668,23 +750,9 @@ function acousticFrontOpacity(gradient) {
     }
     if (!dirty) return;
     dirty = false;
-    const obstacles = [];
-    function rect(r, inset = 0) {
-      if (r.width <= 0 || r.height <= 0 || r.bottom < -pad || r.top > height + pad) return;
-      obstacles.push({ x: (r.left - originX - inset) / cell, y: (r.top + window.scrollY - originY - inset) / cell,
-        w: (r.width + 2 * inset) / cell, h: (r.height + 2 * inset) / cell });
-    }
-    document.querySelectorAll('main .feature-visual,main .project-visual,main .portrait,main .button').forEach(element => rect(element.getBoundingClientRect()));
-    // Visible section separators are finite walls; the page margins stay open.
-    document.querySelectorAll('.hero-details,.about-section,.experience,.skill-block,.education,.contact-section,.footer-inner').forEach(element => {
-      const r = element.getBoundingClientRect(), style = getComputedStyle(element);
-      const gutter = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gutter')) || 0;
-      const inset = element.matches('.about-section,.contact-section') ? parseFloat(style.paddingLeft) || gutter : 0;
-      if (parseFloat(style.borderTopWidth) > 0) rect({left:r.left + inset, top:r.top, bottom:r.top + 1, width:r.width - 2 * inset, height:1});
-      if (parseFloat(style.borderBottomWidth) > 0) rect({left:r.left, top:r.bottom - 1, bottom:r.bottom, width:r.width, height:1});
-    });
-    rect(document.querySelector('header').getBoundingClientRect());
-    field.setObstacles(obstacles,paintTextInk());
+    paintTextInk();
+    paintSurfaces();
+    field.setObstacles(mask.getImageData(0,0,obstacleRaster.width,obstacleRaster.height).data);
   }
   function draw(time) {
     const { p, solid, nx, ny } = field;
@@ -741,11 +809,16 @@ function acousticFrontOpacity(gradient) {
       ctx.strokeStyle = `rgba(180,210,255,${(1 - age) * .55})`; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.arc(m.x, m.y - window.scrollY, 3 + age * 9, 0, Math.PI * 2); ctx.stroke();
     }
+    // Clip the glow and source markers to the exact visible edges of solid surfaces.
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = '#000';
+    ctx.fill(coveredSurfaces);
+    ctx.globalCompositeOperation = 'source-over';
     return used.some(Boolean);
   }
   function animate(time) {
     frame = 0;
-    if (!enabled || motion.matches || document.hidden) { reset(); return; }
+    if (motion.matches || document.hidden) { reset(); return; }
     geometry();
     carry += Math.min((time - (lastTime || time)) / 1000, .06); lastTime = time;
     const step = 1 / PageWaveSignal.stepRate;
@@ -756,18 +829,21 @@ function acousticFrontOpacity(gradient) {
     frame = requestAnimationFrame(animate);
   }
   function emit(event) {
-    if (!enabled || motion.matches || document.hidden || event.defaultPrevented || event.target.closest(interactive)) return;
+    if (motion.matches || document.hidden || event.defaultPrevented || event.target.closest(interactive)) return;
     if (window.getSelection()?.toString().trim()) return;
     const now = performance.now();
     if (now - lastEmission < 160) return;
     lastEmission = now;
+    const {clientX} = event;
+    const pageY = event.clientY + window.scrollY;
     waveAudio.emit(event.clientX,window.innerWidth,()=>{
-      if(!enabled||motion.matches||document.hidden)return false;
+      if(motion.matches||document.hidden)return false;
+      if (pageY < window.scrollY || pageY >= window.scrollY + window.innerHeight) return false;
       geometry();
-      const source = field.emit((event.clientX - originX) / cell, (event.clientY + window.scrollY - originY) / cell);
+      const source = field.emit((clientX - originX) / cell, (pageY - originY) / cell);
       if(!source)return false;
       const started=performance.now();quietFrames=0;
-      markers.push({x:originX + source.x * cell,y:originY + source.y * cell,time:started});
+      markers.push({x:originX + (source.x + .5) * cell,y:originY + (source.y + .5) * cell,time:started});
       if(markers.length>4)markers.shift();
       if(!frame){lastTime=0;carry=0;frame=requestAnimationFrame(animate);}
       return true;
@@ -775,7 +851,8 @@ function acousticFrontOpacity(gradient) {
   }
   // A release after a drag or touch scroll is not an acoustic click.
   document.addEventListener('pointerdown', event => {
-    down = event.button === 0 && event.isPrimary ? {x:event.clientX,y:event.clientY,scroll:window.scrollY,id:event.pointerId} : null;
+    down = event.button === 0 && event.isPrimary && !event.target.closest(interactive)
+      ? {x:event.clientX,y:event.clientY,scroll:window.scrollY,id:event.pointerId} : null;
   }, {passive:true});
   document.addEventListener('pointerup', event => {
     const start = down; down = null;
@@ -786,6 +863,8 @@ function acousticFrontOpacity(gradient) {
   document.addEventListener('pointercancel', () => { down = null; }, {passive:true});
   window.addEventListener('scroll', () => { dirty = true; }, {passive:true});
   window.addEventListener('resize', reset, {passive:true});
+  document.addEventListener('focusin', () => { dirty = true; });
+  document.addEventListener('focusout', () => { dirty = true; });
   document.addEventListener('visibilitychange', () => { if (document.hidden) {reset();waveAudio.stop();} });
   window.addEventListener('pagehide',()=>waveAudio.stop());
   function invalidateText() { dirty = true; textLayoutDirty = true; }
@@ -795,11 +874,6 @@ function acousticFrontOpacity(gradient) {
   document.fonts?.ready.then(invalidateText);
   document.fonts?.addEventListener('loadingdone',invalidateText);
   motion.addEventListener('change',()=>{reset();waveAudio.stop();});
-  toggle.hidden = false;
-  toggle.addEventListener('click', () => {
-    enabled = !enabled; toggle.setAttribute('aria-pressed', String(enabled));
-    if (!enabled) {reset();waveAudio.stop();}
-  });
 })();
 
   </script>
