@@ -116,6 +116,13 @@
     .environment-compare-after { position:absolute; inset:0; overflow:hidden; clip-path:inset(0 0 0 var(--reveal)); }
     .environment-compare-after img { max-width:none; }
     .environment-compare::before { content:""; position:absolute; z-index:2; top:0; bottom:0; left:var(--reveal); width:2px; background:#f7f8fc; box-shadow:0 0 16px rgba(80,120,255,.65); transform:translateX(-1px); pointer-events:none; }
+    .environment-brand { position:absolute; z-index:3; bottom:14px; display:flex; align-items:center; gap:9px; min-height:40px; padding:7px 12px; border:1px solid rgba(255,255,255,.2); border-radius:999px; background:rgba(8,10,15,.78); color:#fff; font-size:.8125rem; font-weight:650; letter-spacing:.02em; line-height:1; pointer-events:none; backdrop-filter:blur(8px); }
+    .environment-brand-left { left:14px; }
+    .environment-brand-right { right:14px; }
+    .environment-brand img { position:static; inset:auto; width:auto; height:auto; object-fit:contain; }
+    .environment-brand .wwise-icon { width:18px; height:14px; }
+    .environment-brand .wwise-wordmark { width:76px; filter:brightness(0) invert(1); }
+    .environment-brand-right img { width:28px; height:28px; }
     .environment-compare-handle { position:absolute; z-index:3; top:50%; left:var(--reveal); display:grid; width:44px; height:58px; place-items:center; border:1px solid rgba(255,255,255,.72); border-radius:999px; background:rgba(13,18,29,.82); color:white; box-shadow:0 4px 18px rgba(0,0,0,.35); transform:translate(-50%,-50%); pointer-events:none; backdrop-filter:blur(10px); }
     .environment-compare-handle svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.6; }
     .environment-compare-range { appearance:none; position:absolute; z-index:4; inset:0; width:100%; height:100%; margin:0; border:0; background:transparent; cursor:ew-resize; touch-action:pan-y; }
@@ -124,7 +131,7 @@
     .environment-compare-range::-moz-range-track { height:100%; border:0; background:transparent; }
     .environment-compare-range::-moz-range-thumb { width:44px; height:100%; border:0; border-radius:0; background:transparent; }
     .environment-compare:focus-within { outline:2px solid var(--blue); outline-offset:3px; }
-    @media (max-width:700px) { .environment-compare-handle { width:38px; height:50px; } }
+    @media (max-width:700px) { .environment-compare-handle { width:38px; height:50px; } .environment-brand { bottom:8px; min-height:34px; padding:5px 8px; gap:6px; font-size:.6875rem; } .environment-brand-left { left:8px; } .environment-brand-right { right:8px; } .environment-brand .wwise-icon { width:16px; height:12px; } .environment-brand .wwise-wordmark { width:66px; } .environment-brand-right img { width:22px; height:22px; } }
     .education { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:42px; border-top:1px solid var(--line); padding-top:26px; }
     .education p { color:var(--muted); margin:8px 0 0; font-size:.9375rem; }
     .education strong { font-weight:500; }
@@ -347,10 +354,12 @@
         <article class="skill-block"><p class="mono" data-i18n="text56">Development</p><h3 data-i18n="text57">Systems &amp; workflow</h3><p class="tool-names">Unity · C# · Perforce</p><p data-i18n="text58">Audio profiling, debugging and optimisation, with a working understanding of 3D production workflows.</p></article>
       </div>
       <div class="environment-showcase">
-        <p class="environment-showcase-eyebrow mono" data-i18n="environmentEyebrow">Environment design</p>
+        <p class="environment-showcase-eyebrow mono" data-i18n="environmentEyebrow">Spatial Audio Volume</p>
         <figure class="environment-compare" role="group" data-i18n-aria-label="environmentGroup">
           <img src="station-avant.webp" alt="Blockout view of the sci-fi environment" data-i18n-alt="environmentBeforeAlt" width="2048" height="505" loading="lazy" decoding="async">
           <div class="environment-compare-after" aria-hidden="true"><img src="station-apres.webp" alt="" width="2048" height="505" loading="lazy" decoding="async"></div>
+          <span class="environment-brand environment-brand-left" aria-hidden="true"><img class="wwise-icon" src="wwise-icon.png" alt=""><img class="wwise-wordmark" src="wwise-logo.png" alt=""></span>
+          <span class="environment-brand environment-brand-right" aria-hidden="true"><img src="unreal-engine-logo.png" alt=""><span>Unreal Engine</span></span>
           <span class="environment-compare-handle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M3 12h18"/></svg></span>
           <input class="environment-compare-range" type="range" min="0" max="100" step="any" value="50" aria-label="Reveal the final scene. Use the left and right arrow keys to compare." data-i18n-aria-label="environmentSlider">
         </figure>
@@ -393,7 +402,7 @@
         text100: { en: 'Watch Audio Reactive Scene on YouTube', fr: 'Voir Scène audio réactive sur YouTube' },
         text101: { en: 'Audio Reactive Scene video thumbnail', fr: 'Miniature de la vidéo Scène audio réactive' },
         text24: { en: 'Audio demo', fr: 'Démo audio' },
-        environmentEyebrow: { en: 'Environment design', fr: 'Conception d’environnement' },
+        environmentEyebrow: { en: 'Spatial Audio Volume', fr: 'Volume audio spatial' },
         environmentGroup: { en: 'Before and after environment comparison', fr: 'Comparaison de l’environnement avant et après' },
         environmentBeforeAlt: { en: 'Blockout view of the sci-fi environment', fr: 'Vue blockout de l’environnement de science-fiction' },
         environmentSlider: { en: 'Reveal the final scene. Use the left and right arrow keys to compare.', fr: 'Révéler la scène finale. Utilisez les flèches gauche et droite pour comparer.' }
